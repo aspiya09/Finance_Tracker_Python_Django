@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Finance Tracker</title>
+    <link rel="stylesheet" href="{% static 'tracker/styles.css' %}" />
+  </head>
+  <body>
+    <h1>Finance Tracker</h1>
+
+    <form method="POST" class="transaction-form">
+      {% csrf_token %}
+
+      <div class="form-group">
+        <label for="{{ form.title.id_for_label }}">Title</label>
+        {{ form.title }}
+      </div>
+
+      <div class="form-group">
+        <label for="{{ form.amount.id_for_label }}">Amount</label>
+        {{ form.amount }}
+      </div>
+
+      <div class="form-group">
+        <label for="{{ form.type.id_for_label }}">Type</label>
+        {{ form.type }}
+      </div>
+
+      <button type="submit" class="submit-btn">Add Transaction</button>
+    </form>
+
+    <h2>Balance: ${{ balance }}</h2>
+    <h3>Income: ${{ income }} | Expenses: ${{ expense }}</h3>
+
+    <ul>
+      {% for transaction in transactions %}
+      <li class="{% if transaction.type == 'expense' %}expense{% endif %}">
+        <div class="transaction-details">
+          {{ transaction.date|date:"M d" }} - {{ transaction.title }} | {{ transaction.type }}
+        </div>
+        <div class="transaction-amount">
+          ${{ transaction.amount }}
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>
