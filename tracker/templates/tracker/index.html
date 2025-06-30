@@ -1,48 +1,60 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
     <title>Finance Tracker</title>
     <link rel="stylesheet" href="{% static 'tracker/styles.css' %}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
   <body>
-    <h1>Finance Tracker</h1>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <h1>💰 Finance Tracker</h1>
+    </nav>
 
-    <form method="POST" class="transaction-form">
-      {% csrf_token %}
+    <!-- Main Container -->
+    <div class="container">
+      <!-- Form Section -->
+      <form method="POST" class="transaction-form">
+        {% csrf_token %}
 
-      <div class="form-group">
-        <label for="{{ form.title.id_for_label }}">Title</label>
-        {{ form.title }}
-      </div>
-
-      <div class="form-group">
-        <label for="{{ form.amount.id_for_label }}">Amount</label>
-        {{ form.amount }}
-      </div>
-
-      <div class="form-group">
-        <label for="{{ form.type.id_for_label }}">Type</label>
-        {{ form.type }}
-      </div>
-
-      <button type="submit" class="submit-btn">Add Transaction</button>
-    </form>
-
-    <h2>Balance: ${{ balance }}</h2>
-    <h3>Income: ${{ income }} | Expenses: ${{ expense }}</h3>
-
-    <ul>
-      {% for transaction in transactions %}
-      <li class="{% if transaction.type == 'expense' %}expense{% endif %}">
-        <div class="transaction-details">
-          {{ transaction.date|date:"M d" }} - {{ transaction.title }} | {{ transaction.type }}
+        <div class="form-group">
+          <label for="{{ form.title.id_for_label }}">Title</label>
+          {{ form.title }}
         </div>
-        <div class="transaction-amount">
-          ${{ transaction.amount }}
+
+        <div class="form-group">
+          <label for="{{ form.amount.id_for_label }}">Amount</label>
+          {{ form.amount }}
         </div>
-      </li>
-      {% endfor %}
-    </ul>
+
+        <div class="form-group">
+          <label for="{{ form.type.id_for_label }}">Type</label>
+          {{ form.type }}
+        </div>
+
+        <button type="submit" class="submit-btn">➕ Add Transaction</button>
+      </form>
+
+      <!-- Summary Cards -->
+      <div class="summary">
+        <div class="card balance">Balance<br><span>${{ balance }}</span></div>
+        <div class="card income">Income<br><span>${{ income }}</span></div>
+        <div class="card expense">Expenses<br><span>${{ expense }}</span></div>
+      </div>
+
+      <!-- Transaction List -->
+      <ul>
+        {% for transaction in transactions %}
+        <li class="{% if transaction.type == 'expense' %}expense{% endif %}">
+          <div class="transaction-details">
+            {{ transaction.date|date:"M d" }} - {{ transaction.title }} | {{ transaction.type }}
+          </div>
+          <div class="transaction-amount">${{ transaction.amount }}</div>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
   </body>
 </html>
