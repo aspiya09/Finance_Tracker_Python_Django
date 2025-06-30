@@ -1,43 +1,52 @@
+/* Reset & Base */
 body {
   font-family: "Segoe UI", sans-serif;
   background-color: #f4f6f8;
   margin: 0;
-  padding: 0 20px;
+  padding: 0 21px;
+  color: #222;
 }
 
-h1 {
+/* Navbar */
+.navbar {
+  background-color: #007bff;
+  color: white;
+  padding: 20px;
   text-align: center;
-  margin: 30px 0 10px;
-  color: #333;
+  margin: 40px 0 20px;
+  font-size: 2.5em;
+  color: #2c3e50;
 }
 
 h2,
 h3 {
   text-align: center;
-  margin: 5px;
-  color: #444;
+  margin: 10px 0;
+  color: #34495e;
+  font-weight: 500;
 }
 
 form {
-  max-width: 550px;
-  margin: 20px auto;
-  padding: 20px;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  max-width: 600px;
+  margin: 30px auto;
+  padding: 25px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.06);
 }
 
 form p {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
+/* Form */
 .transaction-form {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  width: 800px;
-  margin-bottom: 30px;
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  width: 850px;
+  margin: 30px auto;
 }
 
 .form-group {
@@ -59,8 +68,9 @@ form p {
   border-radius: 4px;
 }
 
-.submit-btn {
-  padding: 10px 15px;
+.submit-btn,
+button {
+  padding: 12px 20px;
   background: #007bff;
   border: none;
   color: white;
@@ -84,15 +94,55 @@ button {
   transition: background 0.3s ease;
 }
 
+.submit-btn:hover,
 button:hover {
-  background-color: #0056b3;
+  background: #0056b3;
 }
 
+/* Summary Cards */
+.summary {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+.card {
+  background-color: white;
+  padding: 20px 30px;
+  border-radius: 8px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  font-weight: bold;
+  min-width: 160px;
+  font-size: 1rem;
+}
+
+.card span {
+  display: block;
+  font-size: 1.5rem;
+  margin-top: 5px;
+}
+
+.balance {
+  border-left: 5px solid #6c757d;
+}
+
+.income {
+  border-left: 5px solid #28a745;
+}
+
+.expense {
+  border-left: 5px solid #dc3545;
+}
+
+/* Transaction List */
 ul {
   list-style: none;
   padding: 0;
-  max-width: 600px;
-  margin: 30px auto;
+  max-width: 650px;
+  margin: 40px auto;
 }
 
 li {
@@ -119,14 +169,20 @@ li.expense {
   font-weight: bold;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+  .transaction-form,
   form,
   ul {
     width: 100%;
+    padding: 15px;
   }
 
   li {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .transaction-amount {
+    margin-top: 10px;
   }
 }
