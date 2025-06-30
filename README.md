@@ -22,9 +22,8 @@ A simple personal finance tracker built with **Python**, **Django**, and **SQLit
 
 ---
 
-## 📦 Setup Instructions
 
-### 1. Clone the Repository
+### Clone the Repository
 
 ```bash
 git clone https://github.com/your-username/django-finance-tracker.git
