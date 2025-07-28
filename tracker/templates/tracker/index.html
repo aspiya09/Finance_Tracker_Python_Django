@@ -39,9 +39,13 @@
 
       <!-- Summary Cards -->
       <div class="summary">
-        <div class="card balance">Balance<br><span>${{ balance }}</span></div>
-        <div class="card income">Income<br><span>${{ income }}</span></div>
-        <div class="card expense">Expenses<br><span>${{ expense }}</span></div>
+        <div class="card balance">
+          Balance<br /><span> ৳${{ balance }}</span>
+        </div>
+        <div class="card income">Income<br /><span> ৳{{ income }}</span></div>
+        <div class="card expense">
+          Expenses<br /><span> ৳{{ expense }}</span>
+        </div>
       </div>
 
       <!-- Transaction List -->
@@ -49,9 +53,10 @@
         {% for transaction in transactions %}
         <li class="{% if transaction.type == 'expense' %}expense{% endif %}">
           <div class="transaction-details">
-            {{ transaction.date|date:"M d" }} - {{ transaction.title }} | {{ transaction.type }}
+            {{ transaction.date|date:"M d" }} - {{ transaction.title }} | {{
+            transaction.type }}
           </div>
-          <div class="transaction-amount">${{ transaction.amount }}</div>
+          <div class="transaction-amount">৳{{ transaction.amount }}</div>
         </li>
         {% endfor %}
       </ul>
