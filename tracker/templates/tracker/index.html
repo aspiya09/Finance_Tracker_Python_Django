@@ -8,14 +8,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
   <body>
-    <!-- Navigation -->
     <nav class="navbar">
-      <h1>💰 Finance Tracker</h1>
+      <h1>Finance Tracker</h1>
     </nav>
 
-    <!-- Main Container -->
     <div class="container">
-      <!-- Form Section -->
       <form method="POST" class="transaction-form">
         {% csrf_token %}
 
@@ -37,7 +34,6 @@
         <button type="submit" class="submit-btn">➕ Add Transaction</button>
       </form>
 
-      <!-- Summary Cards -->
       <div class="summary">
         <div class="card balance">
           Balance<br /><span> ৳${{ balance }}</span>
@@ -48,15 +44,26 @@
         </div>
       </div>
 
-      <!-- Transaction List -->
       <ul>
         {% for transaction in transactions %}
         <li class="{% if transaction.type == 'expense' %}expense{% endif %}">
           <div class="transaction-details">
-            {{ transaction.date|date:"M d" }} - {{ transaction.title }} | {{
-            transaction.type }}
+            {{ transaction.date|date:"M d" }} - {{ transaction.title }}
           </div>
-          <div class="transaction-amount">৳{{ transaction.amount }}</div>
+          <div class="transaction-amount">
+            ৳{{ transaction.amount }}
+            <a
+              href="{% url 'edit_transaction' transaction.id %}"
+              class="edit-btn"
+              >✏️</a
+            >
+            <a
+              href="{% url 'delete_transaction' transaction.id %}"
+              class="delete-btn"
+              onclick="return confirm('Are you sure?')"
+              >🗑️</a
+            >
+          </div>
         </li>
         {% endfor %}
       </ul>
