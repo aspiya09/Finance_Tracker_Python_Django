@@ -6,7 +6,12 @@
 
   <form method="POST">
     {% csrf_token %}
-    {{ form.as_p }}
+    <p>{{ form.title.label_tag }} {{ form.title }}</p>
+    <p>{{ form.amount.label_tag }} {{ form.amount }}</p>
+    <p>{{ form.type.label_tag }} {{ form.type }}</p>
+    <p>{{ form.category.label_tag }} {{ form.category }}</p>
+    <p>{{ form.payment_method.label_tag }} {{ form.payment_method }}</p>
+    <p>{{ form.notes.label_tag }} {{ form.notes }}</p>
     <button type="submit">Add Finance</button>
   </form>
 
@@ -15,14 +20,24 @@
 
   <hr>
 
-  <!-- Filter Dropdown -->
+    <!-- Filters -->
     <form method="GET" style="margin-bottom: 1rem;">
-    <label for="type">Filter:</label>
-    <select name="type" onchange="this.form.submit()">
+    <label>Type:</label>
+    <select name="type">
         <option value="all" {% if filter_type == "all" %}selected{% endif %}>All</option>
         <option value="income" {% if filter_type == "income" %}selected{% endif %}>Income</option>
         <option value="expense" {% if filter_type == "expense" %}selected{% endif %}>Expense</option>
     </select>
+
+    <label>Category:</label>
+    <select name="category">
+        <option value="all" {% if filter_category == "all" %}selected{% endif %}>All</option>
+        {% for key, val in form.category.field.choices %}
+        <option value="{{ key }}" {% if filter_category == key %}selected{% endif %}>{{ val }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Apply</button>
     </form>
 
   <h3>Your Finances:</h3>
@@ -30,9 +45,12 @@
     <thead>
       <tr>
         <th>Title</th>
-        <th>Amount (৳)</th>
+        <th>Amount</th>
         <th>Type</th>
+        <th>Category</th>
+        <th>Payment</th>
         <th>Date</th>
+        <th>Notes</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -42,14 +60,17 @@
             <td>{{ finance.title }}</td>
             <td>৳{{ finance.amount }}</td>
             <td>{{ finance.get_type_display }}</td>
+            <td>{{ finance.get_category_display }}</td>
+            <td>{{ finance.get_payment_method_display }}</td>
             <td>{{ finance.date|date:"Y-m-d H:i" }}</td>
+            <td>{{ finance.notes|linebreaks }}</td>
             <td>
             <a href="{% url 'edit_finance' finance.id %}">Edit</a> |
             <a href="{% url 'delete_finance' finance.id %}" onclick="return confirm('Are you sure?');">Delete</a>
             </td>
         </tr>
         {% empty %}
-        <tr><td colspan="5">No finance records found.</td></tr>
+        <tr><td colspan="8">No records found.</td></tr>
         {% endfor %}
     </tbody>
   </table>

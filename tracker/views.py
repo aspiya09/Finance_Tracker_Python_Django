@@ -44,12 +44,17 @@ def login_view(request):
 @login_required
 def dashboard(request):
     filter_type = request.GET.get('type', 'all')
-    if filter_type == 'income':
-        finances = Finance.objects.filter(user=request.user, type='income').order_by('-date')
-    elif filter_type == 'expense':
-        finances = Finance.objects.filter(user=request.user, type='expense').order_by('-date')
-    else:
-        finances = Finance.objects.filter(user=request.user).order_by('-date')
+    filter_category = request.GET.get('category', 'all')
+
+    finances = Finance.objects.filter(user=request.user)
+
+    if filter_type != 'all':
+        finances = finances.filter(type=filter_type)
+
+    if filter_category != 'all':
+        finances = finances.filter(category=filter_category)
+
+    finances = finances.order_by('-date')
     
     form = FinanceForm(request.POST or None)
     if request.method == 'POST' and form.is_valid():
@@ -69,6 +74,7 @@ def dashboard(request):
         'expense': expense,
         'balance': balance,
         'filter_type': filter_type,
+        'filter_category': filter_category,
     }
     return render(request, 'tracker/dashboard.html', context)
 
