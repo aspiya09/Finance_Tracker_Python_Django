@@ -9,4 +9,6 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('finance/edit/<int:id>/', views.edit_finance, name='edit_finance'),
     path('finance/delete/<int:id>/', views.delete_finance, name='delete_finance'),
+    path('export/', views.export_csv, name='export_csv'),
+
 ]

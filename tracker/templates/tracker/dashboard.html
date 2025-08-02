@@ -21,57 +21,75 @@
   <hr>
 
     <!-- Filters -->
-    <form method="GET" style="margin-bottom: 1rem;">
-    <label>Type:</label>
-    <select name="type">
-        <option value="all" {% if filter_type == "all" %}selected{% endif %}>All</option>
-        <option value="income" {% if filter_type == "income" %}selected{% endif %}>Income</option>
-        <option value="expense" {% if filter_type == "expense" %}selected{% endif %}>Expense</option>
-    </select>
+<form method="get" style="margin-bottom: 20px;">
+  <label>Type:</label>
+  <select name="type">
+    <option value="">All</option>
+    <option value="income">Income</option>
+    <option value="expense">Expense</option>
+  </select>
 
-    <label>Category:</label>
-    <select name="category">
-        <option value="all" {% if filter_category == "all" %}selected{% endif %}>All</option>
-        {% for key, val in form.category.field.choices %}
-        <option value="{{ key }}" {% if filter_category == key %}selected{% endif %}>{{ val }}</option>
-        {% endfor %}
-    </select>
+  <label>Category:</label>
+  <select name="category">
+    <option value="">All</option>
+    <option value="food">Food</option>
+    <option value="rent">Rent</option>
+    <option value="travel">Travel</option>
+    <option value="salary">Salary</option>
+    <option value="other">Other</option>
+  </select>
 
-    <button type="submit">Apply</button>
-    </form>
+  <label>Payment:</label>
+  <select name="payment_type">
+    <option value="">All</option>
+    <option value="cash">Cash</option>
+    <option value="card">Card</option>
+    <option value="mobile">Mobile Banking</option>
+    <option value="other">Other</option>
+  </select>
+
+  <button type="submit">Apply Filter</button>
+  <a href="{% url 'dashboard' %}"><button type="button">Reset</button></a>
+</form>
+
 
   <h3>Your Finances:</h3>
-  <table border="1" cellpadding="8" cellspacing="0">
+    <a href="{% url 'export_csv' %}">
+        <button>Export to CSV</button>
+    </a>
+
+    <table border="1" cellpadding="6">
     <thead>
-      <tr>
+        <tr>
         <th>Title</th>
         <th>Amount</th>
         <th>Type</th>
         <th>Category</th>
         <th>Payment</th>
         <th>Date</th>
-        <th>Notes</th>
+        <th>Note</th>
         <th>Actions</th>
-      </tr>
+        </tr>
     </thead>
     <tbody>
-        {% for finance in finances %}
+        {% for f in finances %}
         <tr>
-            <td>{{ finance.title }}</td>
-            <td>৳{{ finance.amount }}</td>
-            <td>{{ finance.get_type_display }}</td>
-            <td>{{ finance.get_category_display }}</td>
-            <td>{{ finance.get_payment_method_display }}</td>
-            <td>{{ finance.date|date:"Y-m-d H:i" }}</td>
-            <td>{{ finance.notes|linebreaks }}</td>
-            <td>
-            <a href="{% url 'edit_finance' finance.id %}">Edit</a> |
-            <a href="{% url 'delete_finance' finance.id %}" onclick="return confirm('Are you sure?');">Delete</a>
-            </td>
+        <td>{{ f.title }}</td>
+        <td>৳{{ f.amount }}</td>
+        <td>{{ f.type }}</td>
+        <td>{{ f.category }}</td>
+        <td>{{ f.payment_type }}</td>
+        <td>{{ f.date }}</td>
+        <td>{{ f.notes }}</td>
+        <td>
+            <a href="{% url 'edit_finance' f.id %}">Edit</a> |
+            <a href="{% url 'delete_finance' f.id %}">Delete</a>
+        </td>
         </tr>
         {% empty %}
         <tr><td colspan="8">No records found.</td></tr>
         {% endfor %}
     </tbody>
-  </table>
+    </table>
+
 {% endblock %}

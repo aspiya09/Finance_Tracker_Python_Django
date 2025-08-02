@@ -7,6 +7,8 @@ from django.contrib.auth.decorators import login_required
 from .models import Finance
 from .forms import FinanceForm
 import json
+import csv
+from django.http import HttpResponse
 
 
 def home(request):
@@ -40,29 +42,26 @@ def login_view(request):
             return redirect('login')
     return render(request, 'tracker/login.html')
 
-
 @login_required
 def dashboard(request):
-    filter_type = request.GET.get('type', 'all')
-    filter_category = request.GET.get('category', 'all')
+    finances = Finance.objects.filter(user=request.user).order_by('-date')
+    form = FinanceForm()
 
-    finances = Finance.objects.filter(user=request.user)
+    # Filtering
+    type_filter = request.GET.get('type')
+    category_filter = request.GET.get('category')
+    payment_filter = request.GET.get('payment_type')
 
-    if filter_type != 'all':
-        finances = finances.filter(type=filter_type)
+    if type_filter:
+        finances = finances.filter(type=type_filter)
 
-    if filter_category != 'all':
-        finances = finances.filter(category=filter_category)
+    if category_filter:
+        finances = finances.filter(category=category_filter)
 
-    finances = finances.order_by('-date')
-    
-    form = FinanceForm(request.POST or None)
-    if request.method == 'POST' and form.is_valid():
-        instance = form.save(commit=False)
-        instance.user = request.user
-        instance.save()
-        return redirect('dashboard')
+    if payment_filter:
+        finances = finances.filter(payment_type=payment_filter)
 
+    # Totals
     income = sum(f.amount for f in finances if f.type == 'income')
     expense = sum(f.amount for f in finances if f.type == 'expense')
     balance = income - expense
@@ -73,10 +72,12 @@ def dashboard(request):
         'income': income,
         'expense': expense,
         'balance': balance,
-        'filter_type': filter_type,
-        'filter_category': filter_category,
+        'type_filter': type_filter,
+        'category_filter': category_filter,
+        'payment_filter': payment_filter,
     }
     return render(request, 'tracker/dashboard.html', context)
+
 
 @login_required
 def logout_view(request):
@@ -99,3 +100,18 @@ def delete_finance(request, id):
     finance = get_object_or_404(Finance, id=id, user=request.user)
     finance.delete()
     return redirect('dashboard')
+
+@login_required
+def export_csv(request):
+    finances = Finance.objects.filter(user=request.user)
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="finance_data.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['Title', 'Amount', 'Type', 'Category', 'Payment Type', 'Date', 'Notes'])
+
+    for f in finances:
+        writer.writerow([f.title, f.amount, f.type, f.category, f.payment_type, f.date, f.notes])
+
+    return response
