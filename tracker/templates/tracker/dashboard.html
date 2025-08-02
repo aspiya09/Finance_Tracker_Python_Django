@@ -1,5 +1,56 @@
 {% extends 'tracker/base.html' %}
+{% load static %}
+
 {% block content %}
-<h2>Hello, {{ request.user.username }}</h2>
-<p>This is your dashboard.</p>
+  <h1>Welcome, {{ user.username }}</h1>
+
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Add Finance</button>
+  </form>
+
+  <h2>Balance: ৳{{ balance }}</h2>
+  <h3>Income: ৳{{ income }} | Expense: ৳{{ expense }}</h3>
+
+  <hr>
+
+  <!-- Filter Dropdown -->
+    <form method="GET" style="margin-bottom: 1rem;">
+    <label for="type">Filter:</label>
+    <select name="type" onchange="this.form.submit()">
+        <option value="all" {% if filter_type == "all" %}selected{% endif %}>All</option>
+        <option value="income" {% if filter_type == "income" %}selected{% endif %}>Income</option>
+        <option value="expense" {% if filter_type == "expense" %}selected{% endif %}>Expense</option>
+    </select>
+    </form>
+
+  <h3>Your Finances:</h3>
+  <table border="1" cellpadding="8" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Amount (৳)</th>
+        <th>Type</th>
+        <th>Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for finance in finances %}
+        <tr>
+            <td>{{ finance.title }}</td>
+            <td>৳{{ finance.amount }}</td>
+            <td>{{ finance.get_type_display }}</td>
+            <td>{{ finance.date|date:"Y-m-d H:i" }}</td>
+            <td>
+            <a href="{% url 'edit_finance' finance.id %}">Edit</a> |
+            <a href="{% url 'delete_finance' finance.id %}" onclick="return confirm('Are you sure?');">Delete</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5">No finance records found.</td></tr>
+        {% endfor %}
+    </tbody>
+  </table>
 {% endblock %}

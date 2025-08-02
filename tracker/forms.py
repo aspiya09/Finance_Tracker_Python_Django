@@ -1,7 +1,7 @@
 from django import forms
-from .models import Transaction
+from .models import Finance
 
-class TransactionForm(forms.ModelForm):
+class FinanceForm(forms.ModelForm):
     class Meta:
-        model = Transaction
+        model = Finance
         fields = ['title', 'amount', 'type']

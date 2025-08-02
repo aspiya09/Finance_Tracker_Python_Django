@@ -1,65 +1,17 @@
 from django.shortcuts import render, redirect
-from .models import Transaction
-from .forms import TransactionForm
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-
-
-def index(request):
-    transactions = Transaction.objects.order_by('-date')
-    form = TransactionForm(request.POST or None)
-    
-    if request.method == 'POST' and form.is_valid():
-        form.save()
-        return redirect('home')
-
-    income = sum(t.amount for t in transactions if t.type == 'income')
-    expense = sum(t.amount for t in transactions if t.type == 'expense')
-    balance = income - expense
-
-    return render(request, 'tracker/index.html', {
-        'form': form,
-        'transactions': transactions,
-        'income': income,
-        'expense': expense,
-        'balance': balance
-    })
-
-def edit_transaction(request, pk):
-    transaction = get_object_or_404(Transaction, pk=pk)
-    form = TransactionForm(request.POST or None, instance=transaction)
-
-    if request.method == 'POST' and form.is_valid():
-        form.save()
-        return redirect('home')
-
-    transactions = Transaction.objects.order_by('-date')
-    income = sum(t.amount for t in transactions if t.type == 'income')
-    expense = sum(t.amount for t in transactions if t.type == 'expense')
-    balance = income - expense
-
-    return render(request, 'tracker/index.html', {
-        'form': form,
-        'transactions': transactions,
-        'income': income,
-        'expense': expense,
-        'balance': balance,
-        'edit_mode': True,
-        'edit_id': pk,
-    })
-
-
-def delete_transaction(request, pk):
-    transaction = get_object_or_404(Transaction, pk=pk)
-    transaction.delete()
-    return redirect('home')
+from .models import Finance
+from .forms import FinanceForm
+import json
 
 
 def home(request):
     return render(request, 'tracker/home.html')
+
 
 def signup_view(request):
     if request.method == 'POST':
@@ -74,6 +26,7 @@ def signup_view(request):
         return redirect('dashboard')
     return render(request, 'tracker/signup.html')
 
+
 def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -87,11 +40,56 @@ def login_view(request):
             return redirect('login')
     return render(request, 'tracker/login.html')
 
+
 @login_required
 def dashboard(request):
-    return render(request, 'tracker/dashboard.html')
+    filter_type = request.GET.get('type', 'all')
+    if filter_type == 'income':
+        finances = Finance.objects.filter(user=request.user, type='income').order_by('-date')
+    elif filter_type == 'expense':
+        finances = Finance.objects.filter(user=request.user, type='expense').order_by('-date')
+    else:
+        finances = Finance.objects.filter(user=request.user).order_by('-date')
+    
+    form = FinanceForm(request.POST or None)
+    if request.method == 'POST' and form.is_valid():
+        instance = form.save(commit=False)
+        instance.user = request.user
+        instance.save()
+        return redirect('dashboard')
+
+    income = sum(f.amount for f in finances if f.type == 'income')
+    expense = sum(f.amount for f in finances if f.type == 'expense')
+    balance = income - expense
+
+    context = {
+        'form': form,
+        'finances': finances,
+        'income': income,
+        'expense': expense,
+        'balance': balance,
+        'filter_type': filter_type,
+    }
+    return render(request, 'tracker/dashboard.html', context)
 
 @login_required
 def logout_view(request):
     logout(request)
     return redirect('home')
+
+@login_required
+def edit_finance(request, id):
+    finance = get_object_or_404(Finance, id=id, user=request.user)
+    form = FinanceForm(request.POST or None, instance=finance)
+
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        return redirect('dashboard')
+
+    return render(request, 'tracker/edit_finance.html', {'form': form})
+
+@login_required
+def delete_finance(request, id):
+    finance = get_object_or_404(Finance, id=id, user=request.user)
+    finance.delete()
+    return redirect('dashboard')
