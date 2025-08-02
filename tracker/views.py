@@ -14,7 +14,6 @@ from django.http import HttpResponse
 def home(request):
     return render(request, 'tracker/home.html')
 
-
 def signup_view(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -51,6 +50,7 @@ def dashboard(request):
     type_filter = request.GET.get('type')
     category_filter = request.GET.get('category')
     payment_filter = request.GET.get('payment_type')
+    search_query = request.GET.get('q')
 
     if type_filter:
         finances = finances.filter(type=type_filter)
@@ -60,6 +60,9 @@ def dashboard(request):
 
     if payment_filter:
         finances = finances.filter(payment_type=payment_filter)
+
+    if search_query:
+        finances = finances.filter(title__icontains=search_query)
 
     # Totals
     income = sum(f.amount for f in finances if f.type == 'income')
@@ -75,6 +78,7 @@ def dashboard(request):
         'type_filter': type_filter,
         'category_filter': category_filter,
         'payment_filter': payment_filter,
+        'search_query': search_query,
     }
     return render(request, 'tracker/dashboard.html', context)
 

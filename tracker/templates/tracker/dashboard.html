@@ -1,27 +1,30 @@
-{% extends 'tracker/base.html' %}
-{% load static %}
+{% extends 'tracker/base.html' %} {% load static %} {% block content %}
+<h1>Welcome, {{ user.username }}</h1>
 
-{% block content %}
-  <h1>Welcome, {{ user.username }}</h1>
+<form method="POST">
+  {% csrf_token %}
+  <p>{{ form.title.label_tag }} {{ form.title }}</p>
+  <p>{{ form.amount.label_tag }} {{ form.amount }}</p>
+  <p>{{ form.type.label_tag }} {{ form.type }}</p>
+  <p>{{ form.category.label_tag }} {{ form.category }}</p>
+  <p>{{ form.payment_method.label_tag }} {{ form.payment_method }}</p>
+  <p>{{ form.notes.label_tag }} {{ form.notes }}</p>
+  <button type="submit">Add Finance</button>
+</form>
 
-  <form method="POST">
-    {% csrf_token %}
-    <p>{{ form.title.label_tag }} {{ form.title }}</p>
-    <p>{{ form.amount.label_tag }} {{ form.amount }}</p>
-    <p>{{ form.type.label_tag }} {{ form.type }}</p>
-    <p>{{ form.category.label_tag }} {{ form.category }}</p>
-    <p>{{ form.payment_method.label_tag }} {{ form.payment_method }}</p>
-    <p>{{ form.notes.label_tag }} {{ form.notes }}</p>
-    <button type="submit">Add Finance</button>
-  </form>
+<h2>Balance: ৳{{ balance }}</h2>
+<h3>Income: ৳{{ income }} | Expense: ৳{{ expense }}</h3>
 
-  <h2>Balance: ৳{{ balance }}</h2>
-  <h3>Income: ৳{{ income }} | Expense: ৳{{ expense }}</h3>
+<hr />
 
-  <hr>
-
-    <!-- Filters -->
-<form method="get" style="margin-bottom: 20px;">
+<!-- Filters -->
+<form method="get" style="margin-bottom: 20px">
+  <input
+    type="text"
+    name="q"
+    placeholder="Search by title"
+    value="{{ search_query }}"
+  />
   <label>Type:</label>
   <select name="type">
     <option value="">All</option>
@@ -52,44 +55,45 @@
   <a href="{% url 'dashboard' %}"><button type="button">Reset</button></a>
 </form>
 
+<h3>Your Finances:</h3>
+<a href="{% url 'export_csv' %}">
+  <button>Export to CSV</button>
+</a>
 
-  <h3>Your Finances:</h3>
-    <a href="{% url 'export_csv' %}">
-        <button>Export to CSV</button>
-    </a>
-
-    <table border="1" cellpadding="6">
-    <thead>
-        <tr>
-        <th>Title</th>
-        <th>Amount</th>
-        <th>Type</th>
-        <th>Category</th>
-        <th>Payment</th>
-        <th>Date</th>
-        <th>Note</th>
-        <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for f in finances %}
-        <tr>
-        <td>{{ f.title }}</td>
-        <td>৳{{ f.amount }}</td>
-        <td>{{ f.type }}</td>
-        <td>{{ f.category }}</td>
-        <td>{{ f.payment_type }}</td>
-        <td>{{ f.date }}</td>
-        <td>{{ f.notes }}</td>
-        <td>
-            <a href="{% url 'edit_finance' f.id %}">Edit</a> |
-            <a href="{% url 'delete_finance' f.id %}">Delete</a>
-        </td>
-        </tr>
-        {% empty %}
-        <tr><td colspan="8">No records found.</td></tr>
-        {% endfor %}
-    </tbody>
-    </table>
+<table border="1" cellpadding="6">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Amount</th>
+      <th>Type</th>
+      <th>Category</th>
+      <th>Payment</th>
+      <th>Date</th>
+      <th>Note</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for f in finances %}
+    <tr>
+      <td>{{ f.title }}</td>
+      <td>৳{{ f.amount }}</td>
+      <td>{{ f.type }}</td>
+      <td>{{ f.category }}</td>
+      <td>{{ f.payment_type }}</td>
+      <td>{{ f.date }}</td>
+      <td>{{ f.notes }}</td>
+      <td>
+        <a href="{% url 'edit_finance' f.id %}">Edit</a> |
+        <a href="{% url 'delete_finance' f.id %}">Delete</a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="8">No records found.</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 
 {% endblock %}
