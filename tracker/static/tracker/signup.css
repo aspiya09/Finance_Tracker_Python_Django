@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&family=Poppins:wght@600&display=swap');
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background-color: #ffffff;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.signup-card {
+  background-color: #f9f9f9;
+  padding: 30px;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.signup-card h2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 26px;
+  color: #7e57c2;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.signup-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.signup-card input {
+  padding: 12px 14px;
+  border: 2px solid #00bcd4;
+  border-radius: 12px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.signup-card input:focus {
+  border-color: #7e57c2;
+}
+
+.signup-card button {
+  background-color: #ffeb3b;
+  color: #000;
+  font-weight: bold;
+  padding: 12px;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.signup-card button:hover {
+  background-color: #fdd835;
+}
+
+.message {
+  background-color: #00bcd4;
+  color: white;
+  font-size: 13px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin-top: 15px;
+  text-align: center;
+}

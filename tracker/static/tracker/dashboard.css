@@ -1,0 +1,164 @@
+/* static/css/dashboard.css */
+
+/* Import fonts */
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&family=Poppins:wght@600&display=swap");
+
+body {
+  font-family: "Nunito", sans-serif;
+  background-color: #ffffff;
+  color: #333;
+  margin: 20px;
+  align-items: center;
+  margin: 0 auto;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Poppins", sans-serif;
+  color: #7e57c2;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.filter-form {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 20px;
+  width: 80%;
+  margin: 0 auto;
+}
+
+form {
+  background: #f8f8f8;
+  padding: 10px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  width: 600px;
+  margin: 0 auto;
+}
+
+form p {
+  margin-bottom: 15px;
+}
+
+input[type="text"],
+select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #00bcd4;
+  border-radius: 8px;
+  font-size: 14px;
+  margin-top: 5px;
+  box-sizing: border-box;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #7e57c2;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #5e35b1;
+}
+
+table {
+  width: 80%;
+  border-collapse: collapse;
+  margin-bottom: 40px;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin: 0 auto;
+}
+
+th,
+td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+thead {
+  background-color: #00bcd4;
+  color: white;
+  font-weight: bold;
+}
+
+td:nth-child(2) {
+  font-weight: bold;
+}
+
+td:last-child a {
+  color: #00bcd4;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+td:last-child a:hover {
+  text-decoration: underline;
+}
+
+hr {
+  border: none;
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 40px 0;
+}
+
+/* Summary table badge styles */
+td {
+  position: relative;
+}
+
+td::before {
+  content: attr(data-badge);
+  display: inline-block;
+  background-color: #ffeb3b;
+  color: #000;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: bold;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+/* Export button */
+a button {
+  background-color: #00bcd4;
+}
+
+a button:hover {
+  background-color: #0097a7;
+}
+
+/* Floating Add Button (optional) */
+.fab {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background-color: #ffeb3b;
+  color: #000;
+  padding: 16px 22px;
+  font-size: 22px;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.export {
+  padding-left: 150px;
+  padding-top: 20px;
+}

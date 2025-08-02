@@ -9,6 +9,12 @@ from .forms import FinanceForm
 import json
 import csv
 from django.http import HttpResponse
+from django.db.models import Sum
+from django.db.models.functions import TruncMonth
+from django.utils.timezone import now
+from collections import defaultdict
+import calendar
+
 
 
 def home(request):
@@ -69,6 +75,25 @@ def dashboard(request):
     expense = sum(f.amount for f in finances if f.type == 'expense')
     balance = income - expense
 
+    # Monthly summary
+    monthly_summary = (
+        finances.annotate(month=TruncMonth('date'))
+        .values('month', 'type')
+        .annotate(total=Sum('amount'))
+        .order_by('-month')
+    )
+
+    # Convert to dictionary: {month: {'income': x, 'expense': y}}
+    from collections import defaultdict
+    import calendar
+
+    summary_dict = defaultdict(lambda: {'income': 0, 'expense': 0})
+    for entry in monthly_summary:
+        month_str = entry['month'].strftime('%B %Y')
+        summary_dict[month_str][entry['type']] = entry['total']
+
+
+
     context = {
         'form': form,
         'finances': finances,
@@ -79,6 +104,7 @@ def dashboard(request):
         'category_filter': category_filter,
         'payment_filter': payment_filter,
         'search_query': search_query,
+        'summary_dict': dict(summary_dict),
     }
     return render(request, 'tracker/dashboard.html', context)
 
