@@ -10,43 +10,35 @@
   <body>
     <h1>Welcome, {{ user.username }}</h1>
 
-    <form method="POST">
-      {% csrf_token %}
-      <p>{{ form.title.label_tag }} {{ form.title }}</p>
-      <p>{{ form.amount.label_tag }} {{ form.amount }}</p>
-      <p>{{ form.type.label_tag }} {{ form.type }}</p>
-      <p>{{ form.category.label_tag }} {{ form.category }}</p>
-      <p>{{ form.payment_method.label_tag }} {{ form.payment_method }}</p>
-      <p>{{ form.notes.label_tag }} {{ form.notes }}</p>
-      <button type="submit">Add Finance</button>
-    </form>
-
     <h2>Balance: ৳{{ balance }}</h2>
     <h3>Income: ৳{{ income }} | Expense: ৳{{ expense }}</h3>
 
-    <h2>📊 Monthly Summary</h2>
-    <table border="1" cellpadding="6">
-      <thead>
-        <tr>
-          <th>Month</th>
-          <th>Income (৳)</th>
-          <th>Expense (৳)</th>
-          <th>Net (৳)</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for month, data in summary_dict.items %}
-        <tr>
-          <td>{{ month }}</td>
-          <td>{{ data.income }}</td>
-          <td>{{ data.expense }}</td>
-          <td>
-            {{ data.income|floatformat:2|add:"-`data.expense`"|floatformat:2 }}
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+    <div class="summary-table">
+      <h2>📊 Monthly Summary</h2>
+      <table border="1" cellpadding="6">
+        <thead>
+          <tr>
+            <th>Month</th>
+            <th>Income (৳)</th>
+            <th>Expense (৳)</th>
+            <th>Net (৳)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for month, data in summary_dict.items %}
+          <tr>
+            <td>{{ month }}</td>
+            <td>{{ data.income }}</td>
+            <td>{{ data.expense }}</td>
+            <td>
+              {{ data.income|floatformat:2|add:"-`data.expense`"|floatformat:2
+              }}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
 
     <hr />
 
@@ -84,7 +76,7 @@
         <option value="other">Other</option>
       </select>
 
-      <button type="submit">Apply Filter</button>
+      <button type="submit">Filter</button>
       <a href="{% url 'dashboard' %}"><button type="button">Reset</button></a>
     </form>
 

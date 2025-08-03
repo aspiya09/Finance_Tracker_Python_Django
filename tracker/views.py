@@ -115,6 +115,20 @@ def logout_view(request):
     return redirect('home')
 
 @login_required
+def post_finance(request):
+    if request.method == 'POST':
+        form = FinanceForm(request.POST)
+        if form.is_valid():
+            finance = form.save(commit=False)
+            finance.user = request.user
+            finance.save()
+            return redirect('dashboard')
+    else:
+        form = FinanceForm()
+    
+    return render(request, 'tracker/post_finance.html', {'form': form})
+
+@login_required
 def edit_finance(request, id):
     finance = get_object_or_404(Finance, id=id, user=request.user)
     form = FinanceForm(request.POST or None, instance=finance)
