@@ -30,10 +30,7 @@
             <td>{{ month }}</td>
             <td>{{ data.income }}</td>
             <td>{{ data.expense }}</td>
-            <td>
-              {{ data.income|floatformat:2|add:"-`data.expense`"|floatformat:2
-              }}
-            </td>
+            <td>{{ data.balance|floatformat:2 }}</td>
           </tr>
           {% endfor %}
         </tbody>
@@ -81,7 +78,7 @@
     </form>
 
     <h3>Your Finances:</h3>
-    <table border="1" cellpadding="6">
+    <table border="1" class="finance-table">
       <thead>
         <tr>
           <th>Title</th>
@@ -97,13 +94,13 @@
       <tbody>
         {% for f in finances %}
         <tr>
-          <td>{{ f.title }}</td>
+          <td class="title">{{ f.title }}</td>
           <td>৳{{ f.amount }}</td>
           <td>{{ f.type }}</td>
           <td>{{ f.category }}</td>
           <td>{{ f.payment_type }}</td>
-          <td>{{ f.date }}</td>
-          <td>{{ f.notes }}</td>
+          <td class="notes">{{ f.date }}</td>
+          <td class="title">{{ f.notes }}</td>
           <td>
             <a href="{% url 'edit_finance' f.id %}">Edit</a> |
             <a href="{% url 'delete_finance' f.id %}">Delete</a>

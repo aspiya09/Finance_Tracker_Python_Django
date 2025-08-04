@@ -11,6 +11,8 @@
     <button type="submit">Create Account</button>
   </form>
 
+  <a href="{% url 'login' %}" class="login-link">← Back to Login</a>
+
   {% for message in messages %}
   <p class="message">{{ message }}</p>
   {% endfor %}

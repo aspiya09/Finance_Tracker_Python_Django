@@ -1,70 +1,83 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&family=Poppins:wght@600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&family=Poppins:wght@500;700&display=swap");
 
 body {
-  font-family: 'Nunito', sans-serif;
-  background-color: #ffffff;
+  margin: 0;
+  padding: 0;
+  font-family: "Nunito", sans-serif;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  height: 100vh;
 }
 
 .signup-card {
-  background-color: #f9f9f9;
-  padding: 30px;
+  background-color: #ffffff;
+  padding: 2.5rem;
+  margin-left: 400px;
   border-radius: 20px;
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
   width: 100%;
   max-width: 400px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
 }
 
 .signup-card h2 {
-  font-family: 'Poppins', sans-serif;
-  font-size: 26px;
+  font-family: "Poppins", sans-serif;
+  font-size: 2rem;
   color: #7e57c2;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-.signup-card form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+  margin-bottom: 1.5rem;
 }
 
 .signup-card input {
-  padding: 12px 14px;
+  width: 80%;
+  padding: 12px 16px;
+  margin: 10px 0;
   border: 2px solid #00bcd4;
   border-radius: 12px;
-  font-size: 14px;
+  font-size: 1rem;
   outline: none;
-  transition: border-color 0.3s;
+  transition: border-color 0.3s ease;
 }
 
 .signup-card input:focus {
-  border-color: #7e57c2;
+  border-color: #ffeb3b;
+  background-color: #f5f5f5;
 }
 
 .signup-card button {
-  background-color: #ffeb3b;
-  color: #000;
-  font-weight: bold;
-  padding: 12px;
+  background-color: #7e57c2;
+  color: #ffffff;
   border: none;
-  border-radius: 999px;
+  border-radius: 30px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-family: "Poppins", sans-serif;
   cursor: pointer;
-  transition: background-color 0.3s;
+  margin-top: 15px;
+  width: 80%;
+  transition: background-color 0.3s ease;
 }
 
 .signup-card button:hover {
-  background-color: #fdd835;
+  background-color: #5e3fa5;
+}
+
+.login-link {
+  display: inline-block;
+  margin-top: 16px;
+  text-decoration: none;
+  color: #00bcd4;
+  font-weight: bold;
+  font-family: "Nunito", sans-serif;
+  font-size: 0.95rem;
+  transition: color 0.3s ease;
+}
+
+.login-link:hover {
+  color: #ffeb3b;
 }
 
 .message {
-  background-color: #00bcd4;
-  color: white;
-  font-size: 13px;
-  padding: 8px 12px;
-  border-radius: 8px;
-  margin-top: 15px;
-  text-align: center;
+  color: #e53935;
+  font-size: 0.95rem;
+  margin-top: 12px;
 }

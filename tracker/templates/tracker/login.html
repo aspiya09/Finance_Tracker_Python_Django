@@ -23,6 +23,7 @@
         required
       />
       <button type="submit" class="login-btn">Login</button>
+      <a href="{% url 'signup' %}" class="signup-btn">Don't have an account? Sign Up</a>
     </form>
 
     {% for message in messages %}

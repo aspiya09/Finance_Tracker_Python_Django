@@ -12,13 +12,28 @@ body {
   margin: 0 auto;
 }
 
-h1,
-h2,
+h1 {
+  font-family: "Poppins", sans-serif;
+  color: #7e57c2;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-family: "Poppins", sans-serif;
+  color: #7e57c2;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 2rem;
+}
+
 h3 {
   font-family: "Poppins", sans-serif;
   color: #7e57c2;
   margin-bottom: 20px;
   text-align: center;
+  font-size: 1.5rem;
 }
 
 .filter-form {
@@ -30,11 +45,17 @@ h3 {
   margin: 0 auto;
 }
 
+.finance-table {
+  width: 80%;
+  margin: 0 auto;
+  margin-bottom: 20px;
+}
+
 .summary-table {
   display: flex;
-  gap: 10px;
+  gap: 30px;
   align-items: center;
-  margin-bottom: 20px;
+  margin-top: 20px;
   width: 80%;
   margin: 0 auto;
 }
@@ -81,14 +102,12 @@ button:hover {
 }
 
 table {
-  width: 80%;
   border-collapse: collapse;
-  margin-bottom: 40px;
+  margin: 20px;
   background: #ffffff;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  margin: 0 auto;
 }
 
 th,
@@ -96,6 +115,16 @@ td {
   padding: 12px 15px;
   text-align: left;
   border-bottom: 1px solid #e0e0e0;
+}
+
+.title {
+  max-width: 70px;
+  word-wrap: break-word;
+}
+
+.notes {
+  max-width: 90px;
+  word-wrap: break-word;
 }
 
 thead {
@@ -133,7 +162,6 @@ td {
 td::before {
   content: attr(data-badge);
   display: inline-block;
-  background-color: #ffeb3b;
   color: #000;
   padding: 2px 8px;
   border-radius: 999px;
@@ -156,4 +184,5 @@ a button:hover {
 .export {
   padding-left: 150px;
   padding-top: 20px;
+  padding-bottom: 20px;
 }

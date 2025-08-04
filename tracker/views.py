@@ -16,7 +16,6 @@ from collections import defaultdict
 import calendar
 
 
-
 def home(request):
     return render(request, 'tracker/home.html')
 
@@ -87,11 +86,15 @@ def dashboard(request):
     from collections import defaultdict
     import calendar
 
-    summary_dict = defaultdict(lambda: {'income': 0, 'expense': 0})
+    summary_dict = defaultdict(lambda: {'income': 0, 'expense': 0, 'balance': 0})
+
     for entry in monthly_summary:
         month_str = entry['month'].strftime('%B %Y')
         summary_dict[month_str][entry['type']] = entry['total']
 
+    # Now calculate the balance for each month
+    for month, data in summary_dict.items():
+        data['balance'] = data['income'] - data['expense']
 
 
     context = {

@@ -1,4 +1,39 @@
-{% extends 'tracker/base.html' %}
-{% block content %}
-<h2>Welcome to Finance Tracker</h2>
+{% extends "tracker/base.html" %} {% load static %} {% block content %}
+<link rel="stylesheet" href="{% static 'tracker/home.css' %}" />
+
+<section class="hero">
+  <div class="hero-content">
+    <h1>💸 Take Control of Your Finances</h1>
+    <p>
+      Track income, monitor expenses, and visualize your financial health—all in
+      one playful dashboard.
+    </p>
+    <a href="{% url 'dashboard' %}" class="btn-primary">Get Started</a>
+  </div>
+</section>
+
+<section class="features">
+  <div class="card">
+    <h2> Get Insights</h2>
+    <p>
+      Summaries, and colorful badges help you understand your
+      monthly flow at a glance.
+    </p>
+  </div>
+  <div class="card">
+    <h2> Private & Secure</h2>
+    <p>All your financial data stays safe and is accessible only to you.</p>
+  </div>
+  <div class="card">
+    <h2> Filter & Export</h2>
+    <p>
+      Easily filter transactions and download your data as CSV in one click.
+    </p>
+  </div>
+</section>
+
+<section class="cta">
+  <h2>🚀 Ready to budget smarter?</h2>
+  <a href="{% url 'signup' %}" class="btn-secondary">Sign Up Free</a>
+</section>
 {% endblock %}
