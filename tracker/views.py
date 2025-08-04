@@ -14,6 +14,8 @@ from django.db.models.functions import TruncMonth
 from django.utils.timezone import now
 from collections import defaultdict
 import calendar
+from django.shortcuts import render
+from .utils.gemini_summary import generate_monthly_summary
 
 
 def home(request):
@@ -82,20 +84,20 @@ def dashboard(request):
         .order_by('-month')
     )
 
-    # Convert to dictionary: {month: {'income': x, 'expense': y}}
-    from collections import defaultdict
-    import calendar
-
     summary_dict = defaultdict(lambda: {'income': 0, 'expense': 0, 'balance': 0})
 
     for entry in monthly_summary:
         month_str = entry['month'].strftime('%B %Y')
         summary_dict[month_str][entry['type']] = entry['total']
 
-    # Now calculate the balance for each month
     for month, data in summary_dict.items():
         data['balance'] = data['income'] - data['expense']
 
+    finance_data = [
+        {"title": f.title, "amount": f.amount, "type": f.type}
+        for f in finances
+    ]
+    ai_summary = generate_monthly_summary(finance_data)  # text from Gemini API
 
     context = {
         'form': form,
@@ -108,9 +110,9 @@ def dashboard(request):
         'payment_filter': payment_filter,
         'search_query': search_query,
         'summary_dict': dict(summary_dict),
+        'summary': ai_summary,
     }
     return render(request, 'tracker/dashboard.html', context)
-
 
 @login_required
 def logout_view(request):
@@ -162,3 +164,17 @@ def export_csv(request):
         writer.writerow([f.title, f.amount, f.type, f.category, f.payment_type, f.date, f.notes])
 
     return response
+
+
+def summary_view(request):
+    data = Finance.objects.all()
+
+    # Format data for AI
+    finance_data = [
+        {"title": item.title, "amount": item.amount, "type": item.type}
+        for item in data
+    ]
+
+    summary = generate_monthly_summary(finance_data)
+
+    return render(request, "tracker/summary.html", {"summary": summary})

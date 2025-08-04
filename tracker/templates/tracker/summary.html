@@ -1,0 +1,27 @@
+{% extends 'tracker/base.html' %} {% block content %}
+<h2>📊 Monthly Summary (AI Generated)</h2>
+<div
+  style="
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 10px #ccc;
+    font-family: Nunito;
+  "
+>
+  <p>{{ summary }}</p>
+</div>
+<a
+  href="{% url 'dashboard' %}"
+  style="
+    display: inline-block;
+    margin-top: 1rem;
+    color: #fff;
+    background: #7e57c2;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    text-decoration: none;
+  "
+  >← Back to Dashboard</a
+>
+{% endblock %}
