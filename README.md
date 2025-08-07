@@ -162,5 +162,3 @@ MIT License. Feel free to use and modify.
 ---
 
 > Built by Kazi Shah Hama [kazishahhamza01@gmail.com]
-
-```
